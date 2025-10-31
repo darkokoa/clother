@@ -119,14 +119,16 @@ cmd_config() {
   echo -e "${BOLD}Configure a Provider Profile${NC}"
   echo
   echo "Available providers:"
-  echo " 1) native   - Anthropic (no key needed)"
-  echo " 2) zai      - Z.AI"
-  echo " 3) minimax  - MiniMax"
-  echo " 4) katcoder - KAT-Coder"
-  echo " 5) kimi     - Moonshot AI"
-  echo " 6) custom   - Add your own"
+  echo " 1) native     - Anthropic (no key needed)"
+  echo " 2) zai        - Z.AI"
+  echo " 3) zai-cn     - Z.AI (China)"
+  echo " 4) minimax    - MiniMax"
+  echo " 5) minimax-cn - MiniMax (China)"
+  echo " 6) katcoder   - KAT-Coder"
+  echo " 7) kimi       - Moonshot AI"
+  echo " 8) custom     - Add your own"
   echo
-  read -r -p "Choose [1-6]: " choice
+  read -r -p "Choose [1-8]: " choice
   case "$choice" in
     1)
       echo
@@ -145,6 +147,16 @@ cmd_config() {
       ;;
     3)
       echo
+      echo "Z.AI (China) Configuration"
+      [ -n "${ZAI_CN_API_KEY:-}" ] && echo "Current key: $(mask_key "$ZAI_CN_API_KEY")"
+      read -rs -p "API Key: " key; echo
+      [ -z "$key" ] && { error "Key is required"; return 1; }
+      save_kv "ZAI_CN_API_KEY" "$key"
+      success "Z.AI (China) API Key saved."
+      log "To use it, run: ${GREEN}clother-zai-cn${NC}"
+      ;;
+    4)
+      echo
       echo "MiniMax Configuration"
       [ -n "${MINIMAX_API_KEY:-}" ] && echo "Current key: $(mask_key "$MINIMAX_API_KEY")"
       read -rs -p "API Key: " key; echo
@@ -152,7 +164,16 @@ cmd_config() {
       save_kv "MINIMAX_API_KEY" "$key"
       success "MiniMax API Key saved. You can now use 'clother-minimax'."
       ;;
-    4)
+    5)
+      echo
+      echo "MiniMax (China) Configuration"
+      [ -n "${MINIMAX_CN_API_KEY:-}" ] && echo "Current key: $(mask_key "$MINIMAX_CN_API_KEY")"
+      read -rs -p "API Key: " key; echo
+      [ -z "$key" ] && { error "Key is required"; return 1; }
+      save_kv "MINIMAX_CN_API_KEY" "$key"
+      success "MiniMax (China) API Key saved. You can now use 'clother-minimax-cn'."
+      ;;
+    6)
       echo
       echo "KAT-Coder Configuration"
       [ -n "${VC_API_KEY:-}" ] && echo "Current key: $(mask_key "$VC_API_KEY")"
@@ -164,7 +185,7 @@ cmd_config() {
       save_kv "VC_ENDPOINT_ID" "$endpoint"
       success "KAT-Coder configured. You can now use 'clother-katcoder'."
       ;;
-    5)
+    7)
       echo
       echo "Moonshot AI (Kimi) Configuration"
       [ -n "${KIMI_API_KEY:-}" ] && echo "Current key: $(mask_key "$KIMI_API_KEY")"
@@ -174,7 +195,7 @@ cmd_config() {
       success "Kimi API Key saved."
       log "To use it, run: ${GREEN}clother-kimi${NC}"
       ;;
-    6)
+    8)
       echo
       echo "Custom Provider"
       read -r -p "Provider name (e.g., 'my-provider'): " name
@@ -288,8 +309,20 @@ cmd_info() {
       echo "  Sonnet:  glm-4.6"
       echo "  Opus:    glm-4.6"
       ;;
+    zai-cn)
+      echo "Base URL: https://open.bigmodel.cn/api/anthropic"
+      echo "Models:"
+      echo "  Haiku:   glm-4.5-air"
+      echo "  Sonnet:  glm-4.6"
+      echo "  Opus:    glm-4.6"
+      ;;
     minimax)
       echo "Base URL: https://api.minimax.io/anthropic"
+      echo "Models:"
+      echo "  Default: MiniMax-M2"
+      ;;
+    minimax-cn)
+      echo "Base URL: https://api.minimaxi.com/anthropic"
       echo "Models:"
       echo "  Default: MiniMax-M2"
       ;;
@@ -417,6 +450,31 @@ export ANTHROPIC_DEFAULT_OPUS_MODEL="glm-4.6"
 exec claude "$@"
 ZAIEOF
 
+cat > "$BIN/clother-zai-cn" <<'ZAICNEOF'
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+cat <<'BANNER'
+  ____ _       _   _
+ / ___| | ___ | |_| |__   ___ _ __
+| |   | |/ _ \| __| '_ \ / _ \ '__|
+| |___| | (_) | |_| | | |  __/ |
+ \____|_|\___/ \__|_| |_|\___|_|
+BANNER
+[ -f "$HOME/.clother/secrets.env" ] && source "$HOME/.clother/secrets.env"
+if [ -z "${ZAI_CN_API_KEY:-}" ]; then
+  RED=$'\033[0;31m'; NC=$'\033[0m'
+  echo -e "${RED}✗ Error: Z.AI (China) API key not set. Run 'clother config'.${NC}" >&2
+  exit 1
+fi
+export ANTHROPIC_BASE_URL="https://open.bigmodel.cn/api/anthropic"
+export ANTHROPIC_AUTH_TOKEN="$ZAI_CN_API_KEY"
+export ANTHROPIC_DEFAULT_HAIKU_MODEL="glm-4.5-air"
+export ANTHROPIC_DEFAULT_SONNET_MODEL="glm-4.6"
+export ANTHROPIC_DEFAULT_OPUS_MODEL="glm-4.6"
+exec claude "$@"
+ZAICNEOF
+
 cat > "$BIN/clother-minimax" <<'MINIMAXEOF'
 #!/usr/bin/env bash
 set -euo pipefail
@@ -440,6 +498,34 @@ export ANTHROPIC_MODEL="MiniMax-M2"
 export API_TIMEOUT_MS="3000000"
 exec claude "$@"
 MINIMAXEOF
+
+cat > "$BIN/clother-minimax-cn" <<'MINIMAXCNEOF'
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+cat <<'BANNER'
+  ____ _       _   _
+ / ___| | ___ | |_| |__   ___ _ __
+| |   | |/ _ \| __| '_ \ / _ \ '__|
+| |___| | (_) | |_| | | |  __/ |
+ \____|_|\___/ \__|_| |_|\___|_|
+BANNER
+[ -f "$HOME/.clother/secrets.env" ] && source "$HOME/.clother/secrets.env"
+if [ -z "${MINIMAX_CN_API_KEY:-}" ]; then
+  RED=$'\033[0;31m'; NC=$'\033[0m'
+  echo -e "${RED}✗ Error: MiniMax (China) API key not set. Run 'clother config'.${NC}" >&2
+  exit 1
+fi
+export ANTHROPIC_BASE_URL="https://api.minimaxi.com/anthropic"
+export ANTHROPIC_AUTH_TOKEN="$MINIMAX_CN_API_KEY"
+export ANTHROPIC_MODEL="MiniMax-M2"
+export ANTHROPIC_SMALL_FAST_MODEL="MiniMax-M2"
+export ANTHROPIC_DEFAULT_SONNET_MODEL="MiniMax-M2"
+export ANTHROPIC_DEFAULT_OPUS_MODEL="MiniMax-M2"
+export ANTHROPIC_DEFAULT_HAIKU_MODEL="MiniMax-M2"
+export API_TIMEOUT_MS="3000000"
+exec claude "$@"
+MINIMAXCNEOF
 
 cat > "$BIN/clother-katcoder" <<'KATEOF'
 #!/usr/bin/env bash
