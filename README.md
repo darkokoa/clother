@@ -64,7 +64,9 @@ clother-native              # Claude Sonnet/Opus/Haiku
 | Command | Provider | Models | Get API Key |
 |---------|----------|--------|-------------|
 | `clother-zai` | Z.AI | GLM-4.5-air, GLM-4.6 | [z.ai](https://z.ai) |
+| `clother-zai-cn` | Z.AI (China) | GLM-4.5-air, GLM-4.6 | [open.bigmodel.cn](https://open.bigmodel.cn) |
 | `clother-minimax` | MiniMax | MiniMax-M2 | [minimax.io](https://minimax.io) |
+| `clother-minimax-cn` | MiniMax (China) | MiniMax-M2 | [minimaxi.com](https://minimaxi.com) |
 | `clother-kimi` | Moonshot AI | Kimi-K2 variants | [moonshot.ai](https://moonshot.ai) |
 | `clother-katcoder` | KAT-Coder | KAT-Coder | [streamlake.ai](https://streamlake.ai) |
 
