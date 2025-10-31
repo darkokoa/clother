@@ -23,7 +23,7 @@
 npm install -g @anthropic-ai/claude-code
 
 # 2. Install Clother
-curl -fsSL https://raw.githubusercontent.com/jolehuit/clother/main/clother.sh | bash
+curl -fsSL https://raw.githubusercontent.com/darkokoa/clother/main/clother.sh | bash
 
 # 3. Add to PATH (if prompted)
 echo 'export PATH="$HOME/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc
@@ -44,7 +44,9 @@ clother-native              # Use your subscription, no setup needed!
 ```bash
 clother config              # Set up Z.AI, MiniMax, Kimi, etc.
 clother-zai                 # Launch with Z.AI (GLM)
+clother-zai-cn              # Launch with Z.AI China (Zhipu/GLM)
 clother-minimax             # Launch with MiniMax
+clother-minimax-cn          # Launch with MiniMax China
 ```
 
 ---
@@ -64,7 +66,7 @@ clother-native              # Claude Sonnet/Opus/Haiku
 | Command | Provider | Models | Get API Key |
 |---------|----------|--------|-------------|
 | `clother-zai` | Z.AI | GLM-4.5-air, GLM-4.6 | [z.ai](https://z.ai) |
-| `clother-zai-cn` | Z.AI (China) | GLM-4.5-air, GLM-4.6 | [open.bigmodel.cn](https://open.bigmodel.cn) |
+| `clother-zai-cn` | Z.AI (China) | GLM-4.5-air, GLM-4.6 | [bigmodel.cn](https://bigmodel.cn) |
 | `clother-minimax` | MiniMax | MiniMax-M2 | [minimax.io](https://minimax.io) |
 | `clother-minimax-cn` | MiniMax (China) | MiniMax-M2 | [minimaxi.com](https://minimaxi.com) |
 | `clother-kimi` | Moonshot AI | Kimi-K2 variants | [moonshot.ai](https://moonshot.ai) |
