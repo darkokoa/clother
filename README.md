@@ -73,6 +73,7 @@ clother-native              # Claude Sonnet/Opus/Haiku
 | `clother-minimax-cn` | MiniMax (China) | MiniMax-M2 | [minimaxi.com](https://minimaxi.com) |
 | `clother-kimi` | Moonshot AI | Kimi-K2 variants | [moonshot.ai](https://moonshot.ai) |
 | `clother-katcoder` | KAT-Coder | KAT-Coder | [streamlake.ai](https://streamlake.ai) |
+| `clother-ve` | VolcEngine (China) | Doubao Seed Code | [console.volcengine.com](https://console.volcengine.com/ark/region:ark+cn-beijing/apikey) |
 
 ### Custom Providers
 
