@@ -126,9 +126,10 @@ cmd_config() {
   echo " 5) minimax-cn - MiniMax (China)"
   echo " 6) katcoder   - KAT-Coder"
   echo " 7) kimi       - Moonshot AI"
-  echo " 8) custom     - Add your own"
+  echo " 8) ve         - VolcEngine (China)"
+  echo " 9) custom     - Add your own"
   echo
-  read -r -p "Choose [1-8]: " choice
+  read -r -p "Choose [1-9]: " choice
   case "$choice" in
     1)
       echo
@@ -196,6 +197,16 @@ cmd_config() {
       log "To use it, run: ${GREEN}clother-kimi${NC}"
       ;;
     8)
+      echo
+      echo "VolcEngine Configuration"
+      [ -n "${ARK_API_KEY:-}" ] && echo "Current key: $(mask_key "$ARK_API_KEY")"
+      read -rs -p "API Key: " key; echo
+      [ -z "$key" ] && { error "Key is required"; return 1; }
+      save_kv "ARK_API_KEY" "$key"
+      success "VolcEngine API Key saved."
+      log "To use it, run: ${GREEN}clother-ve${NC}"
+      ;;
+    9)
       echo
       echo "Custom Provider"
       read -r -p "Provider name (e.g., 'my-provider'): " name
@@ -339,6 +350,11 @@ cmd_info() {
       echo "  Default/Fast: kimi-k2-turbo-preview"
       echo "  Latest:       kimi-k2-0905-preview"
       echo "  Alternate:    kimi-k2-0711-preview"
+      ;;
+    ve)
+      echo "Base URL: https://ark.cn-beijing.volces.com/api/coding"
+      echo "Models:"
+      echo "  Default: doubao-seed-code-preview-latest"
       ;;
     *)
       local launcher_file="$BIN/clother-$provider"
@@ -561,11 +577,11 @@ cat > "$BIN/clother-kimi" <<'KIMIEOF'
 set -euo pipefail
 IFS=$'\n\t'
 cat <<'BANNER'
-  ____ _       _   _               
- / ___| | ___ | |_| |__   ___ _ __ 
+  ____ _       _   _
+ / ___| | ___ | |_| |__   ___ _ __
 | |   | |/ _ \| __| '_ \ / _ \ '__|
-| |___| | (_) | |_| | | |  __/ |   
- \____|_|\___/ \__|_| |_|\___|_|   
+| |___| | (_) | |_| | | |  __/ |
+ \____|_|\___/ \__|_| |_|\___|_|
 BANNER
 [ -f "$HOME/.clother/secrets.env" ] && source "$HOME/.clother/secrets.env"
 if [ -z "${KIMI_API_KEY:-}" ]; then
@@ -579,6 +595,31 @@ export ANTHROPIC_MODEL="kimi-k2-turbo-preview"
 export ANTHROPIC_SMALL_FAST_MODEL="kimi-k2-turbo-preview"
 exec claude "$@"
 KIMIEOF
+
+cat > "$BIN/clother-ve" <<'VEEOF'
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+cat <<'BANNER'
+  ____ _       _   _
+ / ___| | ___ | |_| |__   ___ _ __
+| |   | |/ _ \| __| '_ \ / _ \ '__|
+| |___| | (_) | |_| | | |  __/ |
+ \____|_|\___/ \__|_| |_|\___|_|
+BANNER
+[ -f "$HOME/.clother/secrets.env" ] && source "$HOME/.clother/secrets.env"
+if [ -z "${ARK_API_KEY:-}" ]; then
+  RED=$'\033[0;31m'; NC=$'\033[0m'
+  echo -e "${RED}✗ Error: VolcEngine API key not set. Run 'clother config'.${NC}" >&2
+  exit 1
+fi
+export ANTHROPIC_BASE_URL="https://ark.cn-beijing.volces.com/api/coding"
+export ANTHROPIC_AUTH_TOKEN="$ARK_API_KEY"
+export ANTHROPIC_MODEL="doubao-seed-code-preview-latest"
+export API_TIMEOUT_MS="3000000"
+export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+exec claude "$@"
+VEEOF
 
 chmod +x "$BIN"/clother-*
 

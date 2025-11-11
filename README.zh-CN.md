@@ -73,6 +73,7 @@ clother-native              # Claude Sonnet/Opus/Haiku
 | `clother-minimax-cn` | MiniMax（中国） | MiniMax-M2 | [minimaxi.com](https://minimaxi.com) |
 | `clother-kimi` | 月之暗面 | Kimi-K2 系列 | [moonshot.ai](https://moonshot.ai) |
 | `clother-katcoder` | KAT-Coder | KAT-Coder | [streamlake.ai](https://streamlake.ai) |
+| `clother-ve` | 火山引擎 | Doubao Seed Code | [console.volcengine.com](https://console.volcengine.com/ark/region:ark+cn-beijing/apikey) |
 
 ### 自定义服务商
 
