@@ -14,7 +14,7 @@
 [![Shell](https://img.shields.io/badge/Shell-Bash-green.svg)](https://www.gnu.org/software/bash/)
 [![Platform](https://img.shields.io/badge/Platform-macOS%20|%20Linux-lightgrey.svg)](#平台支持)
 
-🔒 安全 • 🚀 快速 • 📦 轻量（约 500 行代码）
+🔒 安全 • 🚀 快速 • 📦 轻量
 
 ---
 
