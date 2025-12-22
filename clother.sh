@@ -317,15 +317,15 @@ cmd_info() {
       echo "Base URL: https://api.z.ai/api/anthropic"
       echo "Models:"
       echo "  Haiku:   glm-4.5-air"
-      echo "  Sonnet:  glm-4.6"
-      echo "  Opus:    glm-4.6"
+      echo "  Sonnet:  glm-4.7"
+      echo "  Opus:    glm-4.7"
       ;;
     zai-cn)
       echo "Base URL: https://open.bigmodel.cn/api/anthropic"
       echo "Models:"
       echo "  Haiku:   glm-4.5-air"
-      echo "  Sonnet:  glm-4.6"
-      echo "  Opus:    glm-4.6"
+      echo "  Sonnet:  glm-4.7"
+      echo "  Opus:    glm-4.7"
       ;;
     minimax)
       echo "Base URL: https://api.minimax.io/anthropic"
@@ -461,8 +461,8 @@ fi
 export ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"
 export ANTHROPIC_AUTH_TOKEN="$ZAI_API_KEY"
 export ANTHROPIC_DEFAULT_HAIKU_MODEL="glm-4.5-air"
-export ANTHROPIC_DEFAULT_SONNET_MODEL="glm-4.6"
-export ANTHROPIC_DEFAULT_OPUS_MODEL="glm-4.6"
+export ANTHROPIC_DEFAULT_SONNET_MODEL="glm-4.7"
+export ANTHROPIC_DEFAULT_OPUS_MODEL="glm-4.7"
 exec claude "$@"
 ZAIEOF
 
@@ -486,8 +486,8 @@ fi
 export ANTHROPIC_BASE_URL="https://open.bigmodel.cn/api/anthropic"
 export ANTHROPIC_AUTH_TOKEN="$ZAI_CN_API_KEY"
 export ANTHROPIC_DEFAULT_HAIKU_MODEL="glm-4.5-air"
-export ANTHROPIC_DEFAULT_SONNET_MODEL="glm-4.6"
-export ANTHROPIC_DEFAULT_OPUS_MODEL="glm-4.6"
+export ANTHROPIC_DEFAULT_SONNET_MODEL="glm-4.7"
+export ANTHROPIC_DEFAULT_OPUS_MODEL="glm-4.7"
 exec claude "$@"
 ZAICNEOF
 
