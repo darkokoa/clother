@@ -67,8 +67,8 @@ clother-native              # Claude Sonnet/Opus/Haiku
 
 | 命令 | 服务商 | 模型 | 获取 API 密钥 |
 |---------|----------|--------|-------------|
-| `clother-zai` | Z.AI | GLM-4.5-air、GLM-4.6 | [z.ai](https://z.ai) |
-| `clother-zai-cn` | 智谱 | GLM-4.5-air、GLM-4.6 | [bigmodel.cn](https://bigmodel.cn) |
+| `clother-zai` | Z.AI | GLM-4.5-air、GLM-4.7 | [z.ai](https://z.ai) |
+| `clother-zai-cn` | 智谱 | GLM-4.5-air、GLM-4.7 | [bigmodel.cn](https://bigmodel.cn) |
 | `clother-minimax` | MiniMax | MiniMax-M2 | [minimax.io](https://minimax.io) |
 | `clother-minimax-cn` | MiniMax（中国） | MiniMax-M2 | [minimaxi.com](https://minimaxi.com) |
 | `clother-kimi` | 月之暗面 | Kimi-K2 系列 | [moonshot.ai](https://moonshot.ai) |
